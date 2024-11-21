@@ -1,5 +1,11 @@
 # Infero
 
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/infero)
+![PyPI - Version](https://img.shields.io/pypi/v/infero)
+![PyPI - Downloads](https://img.shields.io/pypi/dw/infero)
+[![CI](https://github.com/norsulabs/infero/actions/workflows/ci.yaml/badge.svg)](https://github.com/norsulabs/infero/actions/workflows/ci.yaml)
+
+
 ## Overview
 
 Infero allows you to easily download, convert, and host your models using the ONNX runtime. It provides a simple CLI to run and maintain the models.
