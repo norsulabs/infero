@@ -1,6 +1,6 @@
 import os
 import pytest
-from infero.pull.download import check_model_integrity, download_model
+from infero.pull.download import check_model_integrity
 
 
 @pytest.fixture
