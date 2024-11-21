@@ -1,5 +1,4 @@
 import os
-from infero.pull.download import download_model
 from infero.utils import sanitize_model_name, print_success
 from transformers import AutoModelForSequenceClassification
 import torch

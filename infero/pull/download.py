@@ -2,7 +2,6 @@ import os
 import requests
 import json
 import yaml
-import typer
 from tqdm import tqdm
 
 from infero.utils import print_error, print_success, sanitize_model_name
