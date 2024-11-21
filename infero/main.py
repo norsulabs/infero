@@ -1,3 +1,4 @@
+import os
 import subprocess
 import typer
 from infero.pull.download import check_model
@@ -19,7 +20,9 @@ def pull(model: str):
 
 @app.command("list")
 def list_models():
-    typer.echo("List of models")
+    models = os.path.join(os.getcwd(), "infero/data/models")
+    for model in os.listdir(models):
+        typer.echo(model)
 
 
 if __name__ == "__main__":
