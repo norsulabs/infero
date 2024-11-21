@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "infero"
-version = "0.0.0"
+version = "0.0.1"
 description = "Easily serve models from huggingface hub."
 authors = ["ameen-91 <mohammedameen9011@gmail.com>"]
 license = "MIT"
@@ -17,6 +17,9 @@ tqdm = "^4.67.0"
 transformers = "^4.46.3"
 fastapi = {extras = ["standard"], version = "^0.115.5"}
 
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.3"
 
 [build-system]
 requires = ["poetry-core"]
