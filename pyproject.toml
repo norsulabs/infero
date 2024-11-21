@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "infero"
-version = "0.0.2"
+version = "0.0.1"
 description = "Easily download, convert, and host your models using the ONNX runtime"
 authors = ["ameen-91 <mohammedameen9011@gmail.com>"]
 license = "MIT"
@@ -16,8 +16,8 @@ onnxruntime = "^1.20.1"
 tqdm = "^4.67.0"
 transformers = "^4.46.3"
 fastapi = {extras = ["standard"], version = "^0.115.5"}
-torch = "2.5.1+cpu"
-torchvision = "0.20.1+cpu"
+torch = {version = "2.5.1+cpu", source = "pytorch_cpu"}
+torchvision = {version = "0.20.1+cpu", source = "pytorch_cpu"}
 
 
 [tool.poetry.group.dev.dependencies]
