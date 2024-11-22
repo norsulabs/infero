@@ -15,7 +15,13 @@ def is_supported(model: str):
     if not arch:
         print_error(f"Architecture not specified in config for {model}")
         return False
-    archs = yaml.safe_load(open("./supported_architectures.yaml"))
+    script_dir = os.path.dirname(__file__)
+    supported_architectures_path = os.path.join(
+        script_dir, "supported_architectures.yaml"
+    )
+
+    with open(supported_architectures_path, "r") as file:
+        archs = yaml.safe_load(file)
     return any(arch == item["name"] for item in archs["architectures"])
 
 
@@ -109,3 +115,6 @@ def check_model(model: str):
         chk = check_model_integrity(model)
         if chk is True:
             return True
+    else:
+        download_model(model)
+        return True
