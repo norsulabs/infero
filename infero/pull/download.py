@@ -15,7 +15,7 @@ def is_supported(model: str):
     if not arch:
         print_error(f"Architecture not specified in config for {model}")
         return False
-    archs = yaml.safe_load(open("infero/supported_architectures.yaml"))
+    archs = yaml.safe_load(open("supported_architectures.yaml"))
     return any(arch == item["name"] for item in archs["architectures"])
 
 
