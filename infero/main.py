@@ -13,7 +13,9 @@ def pull(model: str):
     if check_model(model):
         convert_to_onnx(model)
         model_path = f"infero/data/models/{sanitize_model_name(model)}"
-        subprocess.run(["python", "infero/serve/server.py", model_path])
+        script_dir = os.path.dirname(__file__)
+        server_script_path = os.path.join(script_dir, "serve", "server.py")
+        subprocess.run(["python", server_script_path, model_path])
     else:
         typer.echo("Failed to run model")
 
