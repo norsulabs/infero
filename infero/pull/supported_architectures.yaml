@@ -3,3 +3,5 @@ architectures:
   - name: 'BertForSequenceClassification'
   - name: 'DistilBertForSequenceClassification'
   - name: 'AlbertForSequenceClassification'
+  - name: 'XLMRobertaForSequenceClassification'
+  - name: 'XLMForSequenceClassification'
