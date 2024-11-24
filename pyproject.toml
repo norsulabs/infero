@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "infero"
-version = "0.0.10"
+version = "0.0.11"
 description = "Easily download, convert, and host your models using the ONNX runtime"
 authors = ["ameen-91 <mohammedameen9011@gmail.com>"]
 license = "MIT"
