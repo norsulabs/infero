@@ -15,6 +15,7 @@ Infero allows you to easily download, convert, and host your models using the ON
 - Automatic downloads.
 - Automatic ONNX conversions.
 - Automatic server setup.
+- 8-bit quantization support.
 
 ## Installation
 
@@ -30,6 +31,24 @@ Here is a simple example of how to use Infero:
 
 ```bash
 infero run [hf_model_name]
+```
+
+To run a model with 8-bit quantization:
+
+```bash
+infero run [hf_model_name] --quantize
+```
+
+To list all available models:
+
+```bash
+infero list
+```
+
+To remove a model:
+
+```bash
+infero remove [hf_model_name]
 ```
 
 Infero is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
