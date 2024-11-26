@@ -3,6 +3,7 @@ import sys
 from fastapi import FastAPI
 from pydantic import BaseModel
 from transformers import AutoTokenizer
+from infero.utils import print_success_bold
 import onnxruntime
 
 
@@ -10,19 +11,27 @@ class TextRequest(BaseModel):
     text: str
 
 
-def load_model(model_path):
+def load_model(model_path, quantize=False):
     tokenizer = AutoTokenizer.from_pretrained(model_path)
     sess_options = onnxruntime.SessionOptions()
-    session = onnxruntime.InferenceSession(
-        os.path.join(model_path, "model.onnx"), sess_options
-    )
+
+    if not quantize:
+        model_path_onnx = os.path.join(model_path, "model.onnx")
+        session = onnxruntime.InferenceSession(model_path_onnx, sess_options)
+        print_success_bold("Running: " + model_path_onnx)
+    else:
+        model_path_onnx = os.path.join(model_path, "model_quantized.onnx")
+        session = onnxruntime.InferenceSession(model_path_onnx, sess_options)
+        print_success_bold("Running: " + model_path_onnx)
     return tokenizer, session
 
 
 api_server = FastAPI()
 
 model_path = sys.argv[1] if len(sys.argv) > 1 else ValueError("Model path not provided")
-tokenizer, session = load_model(model_path)
+quantize = sys.argv[2].lower() == "true"
+
+tokenizer, session = load_model(model_path, quantize)
 
 
 @api_server.post("/inference")

@@ -4,7 +4,7 @@ import json
 import yaml
 from tqdm import tqdm
 
-from infero.utils import print_error, print_success, sanitize_model_name
+from infero.utils import print_error, print_success, sanitize_model_name, print_neutral
 
 
 def is_supported(model: str):
@@ -32,18 +32,18 @@ def check_model_integrity(model: str):
     config_path = f"infero/data/models/{sanitize_model_name(model)}/config.json"
 
     if not os.path.exists(model_path):
-        print_error(f"Model {model} not found, downloading...")
+        print_neutral(f"Model {model} not found, downloading...")
         download_model(model)
 
     if not os.path.exists(vocab_path) and not os.path.exists(vocab_path_2):
-        print_error(f"Vocab file for {model} not found, downloading...")
+        print_neutral(f"Vocab file for {model} not found, downloading...")
         vocab_url = f"https://huggingface.co/{model}/resolve/main/vocab.json"
         if not download_file(vocab_url, vocab_path):
             vocab_url = f"https://huggingface.co/{model}/resolve/main/vocab.txt"
             download_file(vocab_url, vocab_path_2)
 
     if not os.path.exists(config_path):
-        print_error(f"Config file for {model} not found, downloading...")
+        print_neutral(f"Config file for {model} not found, downloading...")
         config_url = f"https://huggingface.co/{model}/raw/main/config.json"
         download_file(config_url, config_path)
 
