@@ -17,7 +17,7 @@ tqdm = "^4.67.0"
 transformers = "^4.46.3"
 fastapi = {extras = ["standard"], version = "^0.115.5"}
 torch = "^2.5.1"
-torchvision = "^0.20.1"
+
 
 
 [tool.poetry.group.dev.dependencies]
@@ -26,7 +26,7 @@ ruff = "^0.7.4"
 
 
 [[tool.poetry.source]]
-name = "pytorch_cpu"
+name = "torch"
 url = "https://download.pytorch.org/whl/cpu"
 priority = "explicit"
 
