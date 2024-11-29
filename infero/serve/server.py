@@ -3,7 +3,12 @@ import sys
 from fastapi import FastAPI
 from pydantic import BaseModel
 from transformers import AutoTokenizer
-from infero.utils import print_success_bold, get_memory_usage, print_neutral
+from infero.utils import (
+    print_success_bold,
+    get_memory_usage,
+    print_neutral,
+    unsanitize_model_name,
+)
 import onnxruntime
 
 
@@ -19,11 +24,13 @@ def load_model(model_path, quantize=False):
     if not quantize:
         model_path_onnx = os.path.join(model_path, "model.onnx")
         session = onnxruntime.InferenceSession(model_path_onnx, sess_options)
-        print_success_bold("Running: " + model_name)
+        print_success_bold("Running: " + unsanitize_model_name(model_name))
     else:
         model_path_onnx = os.path.join(model_path, "model_quantized.onnx")
         session = onnxruntime.InferenceSession(model_path_onnx, sess_options)
-        print_success_bold("Running: " + model_name + " (Quantized)")
+        print_success_bold(
+            "Running: " + unsanitize_model_name(model_name) + " (Quantized)"
+        )
 
     print_neutral(f"Memory usage: {get_memory_usage()/1024**2:.2f} MB")
 
