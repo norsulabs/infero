@@ -91,12 +91,14 @@ def download_model(model: str):
     model_url = f"https://huggingface.co/{model}/resolve/main/pytorch_model.bin"
     vocab_url = f"https://huggingface.co/{model}/resolve/main/vocab.json"
     config_url = f"https://huggingface.co/{model}/raw/main/config.json"
+    merges_url = f"https://huggingface.co/{model}/raw/main/merges.txt"
     output_dir = os.path.join(
         get_package_dir(), f"data/models/{sanitize_model_name(model)}"
     )
     model_path = os.path.join(output_dir, "pytorch_model.bin")
     vocab_path = os.path.join(output_dir, "vocab.json")
     config_path = os.path.join(output_dir, "config.json")
+    merges_path = os.path.join(output_dir, "merges.txt")
 
     os.makedirs(output_dir, exist_ok=True)
 
@@ -119,6 +121,11 @@ def download_model(model: str):
         print_success(f"Config file for {model} downloaded successfully")
     else:
         print_error(f"Failed to download config file for {model}")
+
+    if download_file(merges_url, merges_path):
+        print_success(f"Merges file for {model} downloaded successfully")
+    else:
+        print_neutral("Merges file doesn't exist")
 
 
 def check_model(model: str):
