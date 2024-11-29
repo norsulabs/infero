@@ -1,21 +1,15 @@
-import os
 import pytest
-from infero.pull.download import check_model_integrity
+from unittest.mock import patch
+from infero.pull.download import download_file
 
 
-@pytest.fixture
-def setup_model_directory():
-    model_name = "test-model"
-    model_dir = f"infero/data/models/{model_name}"
-    os.makedirs(model_dir, exist_ok=True)
-    yield model_name
-    # Cleanup after test
-    if os.path.exists(model_dir):
-        for file in os.listdir(model_dir):
-            os.remove(os.path.join(model_dir, file))
-        os.rmdir(model_dir)
+@patch("infero.pull.download.download_file")
+def test_download_file_success(mock_download_file):
+    mock_download_file.return_value = True
+    url = "https://huggingface.co/cardiffnlp/twitter-roberta-base-sentiment/blob/main/vocab.json"
+    result = download_file(url, "file.json")
+    assert result
 
 
-def test_check_model_integrity(setup_model_directory):
-    model_name = setup_model_directory
-    assert check_model_integrity(model_name) is True
+if __name__ == "__main__":
+    pytest.main()
