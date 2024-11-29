@@ -36,10 +36,16 @@ pip install infero
 Here is a simple example of how to use Infero:
 
 ```bash
+infero pull [hf_model_name]
+```
+
+To run a model:
+
+```bash
 infero run [hf_model_name]
 ```
 
-To run a model with 8-bit quantization:
+With 8-bit quantization:
 
 ```bash
 infero run [hf_model_name] --quantize
