@@ -1,13 +1,17 @@
 import os
 import subprocess
 import typer
-from infero.pull.download import check_model
+from infero.pull.download import check_model, pull_model
+from tabulate import tabulate
 from infero.convert.onnx import convert_to_onnx, convert_to_onnx_q8
 from infero.utils import (
     sanitize_model_name,
     get_models_dir,
     get_package_dir,
     print_neutral,
+    print_success_bold,
+    print_error,
+    get_memory_usage,
 )
 from infero.pull.models import remove_model
 
@@ -15,12 +19,9 @@ app = typer.Typer(name="infero")
 
 
 @app.command("run")
-def pull(model: str, quantize: bool = False):
-    print
+def run(model: str, quantize: bool = False):
+    print_neutral(f"{get_memory_usage()/ 1024 / 1024} MB")
     if check_model(model):
-        convert_to_onnx(model)
-        if quantize:
-            convert_to_onnx_q8(model)
         model_path = os.path.join(get_models_dir(), sanitize_model_name(model))
         package_dir = get_package_dir()
         server_script_path = os.path.join(package_dir, "serve", "server.py")
@@ -31,14 +32,40 @@ def pull(model: str, quantize: bool = False):
         typer.echo("Failed to run model")
 
 
+@app.command("pull")
+def pull(model: str, quantize: bool = False):
+    if pull_model(model):
+        convert_to_onnx(model)
+        if quantize:
+            convert_to_onnx_q8(model)
+        print_success_bold(f"Model {model} pulled successfully")
+    else:
+        print_error("Failed to get model")
+
+
 @app.command("list")
 def list_models():
     if not os.path.exists(get_models_dir()):
         print_neutral("No models found")
         return
-    models = os.path.join(get_models_dir(), sanitize_model_name)
-    for model in os.listdir(models):
-        typer.echo(model)
+    models_dir = get_models_dir()
+    models = []
+    for model in os.listdir(models_dir):
+        quantized = (
+            f"{os.path.getsize(os.path.join(models_dir, model, 'model_quantized.onnx')) / 1024 / 1024:.2f}"
+            if os.path.exists(os.path.join(models_dir, model, "model_quantized.onnx"))
+            else ""
+        )
+        size = (
+            os.path.getsize(os.path.join(models_dir, model, "pytorch_model.bin"))
+            / 1024
+            / 1024
+        )
+        models.append([model, size, quantized])
+    table = tabulate(
+        models, headers=["Name", "Size (MB)", "Quantized (MB)"], tablefmt="grid"
+    )
+    print_neutral(table)
 
 
 @app.command("remove")

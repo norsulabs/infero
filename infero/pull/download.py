@@ -48,7 +48,7 @@ def check_model_integrity(model: str):
 
     if not os.path.exists(model_path):
         print_neutral(f"Model {model} not found, downloading...")
-        download_model(model)
+        return False
 
     if not os.path.exists(vocab_path) and not os.path.exists(vocab_path_2):
         print_neutral(f"Vocab file for {model} not found, downloading...")
@@ -122,6 +122,26 @@ def download_model(model: str):
 
 
 def check_model(model: str):
+
+    if is_supported(model):
+        print_success(f"Model {model} is supported")
+    else:
+        print_error("Model architecture not supported")
+
+    if os.path.exists(
+        os.path.join(get_package_dir(), f"data/models/{sanitize_model_name(model)}")
+    ):
+        print_success(f"Model {model} already exists")
+        chk = check_model_integrity(model)
+        if chk is True:
+            return True
+    else:
+        print_error(f"Model {model} not found, please run 'infero pull {model}'")
+        return False
+
+
+def pull_model(model: str):
+
     if is_supported(model):
         print_success(f"Model {model} is supported")
     else:
