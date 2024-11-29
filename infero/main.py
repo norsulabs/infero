@@ -2,16 +2,13 @@ import os
 import subprocess
 import typer
 from infero.pull.download import check_model, pull_model
-from tabulate import tabulate
 from infero.convert.onnx import convert_to_onnx, convert_to_onnx_q8
 from infero.utils import (
     sanitize_model_name,
     get_models_dir,
     get_package_dir,
-    print_neutral,
     print_success_bold,
     print_error,
-    get_memory_usage,
 )
 from infero.pull.models import remove_model, display_models
 
