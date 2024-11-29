@@ -19,7 +19,7 @@ logging.getLogger("root").setLevel(
 def convert_to_onnx(model_name):
 
     output_path = os.path.join(
-        get_models_dir(), f"{sanitize_model_name(model_name)}/model.onnx"
+        get_models_dir(), f"{sanitize_model_name(model_name)}/model_quantized.onnx"
     )
 
     if os.path.exists(output_path):
