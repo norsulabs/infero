@@ -17,6 +17,7 @@ tqdm = "^4.67.0"
 transformers = "^4.46.3"
 fastapi = {extras = ["standard"], version = "^0.115.5"}
 torch = "^2.5.1"
+psutil = "^6.1.0"
 
 
 

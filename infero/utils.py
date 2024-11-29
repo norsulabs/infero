@@ -1,4 +1,7 @@
 import typer
+import os
+import pkg_resources
+import psutil
 
 
 def print_success(message: str):
@@ -23,3 +26,16 @@ def sanitize_model_name(model: str):
 
 def unsanitize_model_name(model: str):
     return model.replace("_", "/")
+
+
+def get_package_dir() -> str:
+    return pkg_resources.resource_filename("infero", "")
+
+
+def get_models_dir():
+    return os.path.join(get_package_dir(), "data", "models")
+
+
+def get_memory_usage():
+    process = psutil.Process(os.getpid())
+    return process.memory_info().rss

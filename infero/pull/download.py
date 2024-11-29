@@ -4,7 +4,13 @@ import json
 import yaml
 from tqdm import tqdm
 
-from infero.utils import print_error, print_success, sanitize_model_name, print_neutral
+from infero.utils import (
+    print_error,
+    print_success,
+    sanitize_model_name,
+    print_neutral,
+    get_package_dir,
+)
 
 
 def is_supported(model: str):
@@ -15,7 +21,7 @@ def is_supported(model: str):
     if not arch:
         print_error(f"Architecture not specified in config for {model}")
         return False
-    script_dir = os.path.dirname(__file__)
+    script_dir = os.path.join(get_package_dir(), "pull")
     supported_architectures_path = os.path.join(
         script_dir, "supported_architectures.yaml"
     )
@@ -26,10 +32,19 @@ def is_supported(model: str):
 
 
 def check_model_integrity(model: str):
-    model_path = f"infero/data/models/{sanitize_model_name(model)}/pytorch_model.bin"
-    vocab_path = f"infero/data/models/{sanitize_model_name(model)}/vocab.json"
-    vocab_path_2 = f"infero/data/models/{sanitize_model_name(model)}/vocab.txt"
-    config_path = f"infero/data/models/{sanitize_model_name(model)}/config.json"
+    model_path = os.path.join(
+        get_package_dir(), f"data/models/{sanitize_model_name(model)}/pytorch_model.bin"
+    )
+    vocab_path = os.path.join(
+        get_package_dir(), f"data/models/{sanitize_model_name(model)}/vocab.json"
+    )
+    vocab_path_2 = os.path.join(
+        get_package_dir(), f"data/models/{sanitize_model_name(model)}/vocab.txt"
+    )
+    config_path = os.path.join(
+        get_package_dir(),
+        f"data/models/{sanitize_model_name(model)}/config.json",
+    )
 
     if not os.path.exists(model_path):
         print_neutral(f"Model {model} not found, downloading...")
@@ -76,7 +91,9 @@ def download_model(model: str):
     model_url = f"https://huggingface.co/{model}/resolve/main/pytorch_model.bin"
     vocab_url = f"https://huggingface.co/{model}/resolve/main/vocab.json"
     config_url = f"https://huggingface.co/{model}/raw/main/config.json"
-    output_dir = f"infero/data/models/{sanitize_model_name(model)}"
+    output_dir = os.path.join(
+        get_package_dir(), f"data/models/{sanitize_model_name(model)}"
+    )
     model_path = os.path.join(output_dir, "pytorch_model.bin")
     vocab_path = os.path.join(output_dir, "vocab.json")
     config_path = os.path.join(output_dir, "config.json")
@@ -110,7 +127,9 @@ def check_model(model: str):
     else:
         print_error("Model architecture not supported")
 
-    if os.path.exists(f"infero/data/models/{sanitize_model_name(model)}"):
+    if os.path.exists(
+        os.path.join(get_package_dir(), f"data/models/{sanitize_model_name(model)}")
+    ):
         print_success(f"Model {model} already exists")
         chk = check_model_integrity(model)
         if chk is True:

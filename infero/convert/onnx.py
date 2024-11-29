@@ -1,5 +1,10 @@
 import os
-from infero.utils import sanitize_model_name, print_success, print_neutral
+from infero.utils import (
+    sanitize_model_name,
+    print_success,
+    print_neutral,
+    get_models_dir,
+)
 from transformers import AutoModelForSequenceClassification
 import torch
 from onnxruntime.quantization import quantize_dynamic, QuantType
@@ -13,7 +18,9 @@ logging.getLogger("root").setLevel(
 
 def convert_to_onnx(model_name):
 
-    output_path = f"infero/data/models/{sanitize_model_name(model_name)}/model.onnx"
+    output_path = os.path.join(
+        get_models_dir(), f"{sanitize_model_name(model_name)}/model.onnx"
+    )
 
     if os.path.exists(output_path):
         print_success(f"ONNX model for {model_name} already exists")
@@ -22,7 +29,7 @@ def convert_to_onnx(model_name):
     print_neutral(f"Creating ONNX model for {model_name}")
 
     model = AutoModelForSequenceClassification.from_pretrained(
-        f"infero/data/models/{sanitize_model_name(model_name)}/"
+        os.path.join(get_models_dir(), f"{sanitize_model_name(model_name)}")
     )
 
     with torch.inference_mode():
@@ -55,9 +62,11 @@ def convert_to_onnx(model_name):
 
 def convert_to_onnx_q8(model_name):
 
-    onnx_model_path = f"infero/data/models/{sanitize_model_name(model_name)}/model.onnx"
-    quantized_model_path = (
-        f"infero/data/models/{sanitize_model_name(model_name)}/model_quantized.onnx"
+    onnx_model_path = os.path.join(
+        get_models_dir(), f"{sanitize_model_name(model_name)}/model.onnx"
+    )
+    quantized_model_path = os.path.join(
+        get_models_dir(), f"{sanitize_model_name(model_name)}/model_quantized.onnx"
     )
 
     if os.path.exists(quantized_model_path):
