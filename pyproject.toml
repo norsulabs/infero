@@ -38,3 +38,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 infero = "infero.main:app"
+
+[tool.poetry.extras]
+gpu = ["onnxruntime-gpu"]
+
