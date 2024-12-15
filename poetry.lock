@@ -2306,7 +2306,10 @@ files = [
     {file = "websockets-14.1.tar.gz", hash = "sha256:398b10c77d471c0aab20a845e7a60076b6390bfdaac7a6d2edb0d2c59d75e8d8"},
 ]
 
+[extras]
+gpu = []
+
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "6ec55dbd549dcb1b8912e739f109b45d87aaedc519776dad0058c06f37b41651"
+content-hash = "ed5d006601bff060cc9b927b1f9bdba6677be9dc9b1be8cef55792b22f752383"
