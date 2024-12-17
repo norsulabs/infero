@@ -22,6 +22,7 @@ Infero allows you to easily download, convert, and host your models using the ON
 - Automatic ONNX conversions.
 - Automatic server setup.
 - 8-bit quantization support.
+- GPU support.
 
 ## Installation
 
